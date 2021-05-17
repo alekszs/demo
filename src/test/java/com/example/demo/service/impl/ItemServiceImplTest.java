@@ -30,31 +30,10 @@ class ItemServiceImplTest {
     @MockBean
     private ItemRepository itemRepository;
 
-    private static Item createItem(int id, String name, String category, double price, String description, int stock) {
-        Item temp = new Item();
-        temp.setId(id);
-        temp.setName(name);
-        temp.setCategory(category);
-        temp.setPrice(price);
-        temp.setDescription(description);
-        temp.setStock(stock);
-        return temp;
-    }
-
-    private static ItemDTO createItemDTO(int id, String name, String category, double price, String description) {
-        ItemDTO temp = new ItemDTO();
-        temp.setId(id);
-        temp.setName(name);
-        temp.setCategory(category);
-        temp.setPrice(price);
-        temp.setDescription(description);
-        return temp;
-    }
-
     @Test
     void getItemById() {
         //given
-        Item temp = createItem(1, "A", "A", 0, "A", 0);
+        Item temp = new Item(1, "A", "A", 0, "A");
         given(itemRepository.findById(1)).willReturn(Optional.of(temp));
         //when
         ItemDTO result = itemService.retrieveItemById(1);
@@ -72,7 +51,7 @@ class ItemServiceImplTest {
         given(itemRepository.findAllByCategory("C")).willReturn(Arrays.asList());
         //when
         Throwable exception = assertThrows(ResponseStatusException.class,
-                () -> itemService.retrieveAllItems("C", false));
+                () -> itemService.retrieveAllItemsByCategory("C", false));
         //then
         assertEquals("404 NOT_FOUND \"Could not find items\"", exception.getMessage());
     }
@@ -80,9 +59,9 @@ class ItemServiceImplTest {
     @Test
     void updateItem() {
         //given
-        Item temp = createItem(1, "A", "A", 0, "A", 0);
+        Item temp = new Item(1, "A", "A", 0, "A");
         given(itemRepository.findById(1)).willReturn(Optional.of(temp));
-        ItemDTO updateWith = createItemDTO(1,"B","B",22,"D");
+        ItemDTO updateWith = new ItemDTO(1, "B", "B", 22, "D");
         //when
         ItemDTO result = itemService.updateItem(updateWith);
         //then
@@ -92,5 +71,4 @@ class ItemServiceImplTest {
         assertThat(result.getPrice()).isEqualTo(updateWith.getPrice());
         assertThat(result.getDescription()).isEqualTo(updateWith.getDescription());
     }
-
 }

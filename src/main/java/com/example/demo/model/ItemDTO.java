@@ -1,17 +1,23 @@
 package com.example.demo.model;
 
+import com.sun.istack.NotNull;
+
 import java.io.Serializable;
 
 public class ItemDTO implements Serializable {
 
     private int id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private String category;
 
+    @NotNull
     private double price;
 
+    @NotNull
     private String description;
 
     public ItemDTO() {
@@ -20,6 +26,13 @@ public class ItemDTO implements Serializable {
 
     public ItemDTO(int id, String name, String category, double price, String description) {
         this.id = id;
+        this.name = name;
+        this.category = category;
+        this.price = price;
+        this.description = description;
+    }
+
+    public ItemDTO(String name, String category, double price, String description) {
         this.name = name;
         this.category = category;
         this.price = price;

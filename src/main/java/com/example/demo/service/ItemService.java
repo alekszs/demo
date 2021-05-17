@@ -7,9 +7,13 @@ import java.util.Optional;
 
 public interface ItemService {
 
+    ItemDTO createNewItem(ItemDTO itemDTO);
+
     ItemDTO retrieveItemById(int id);
 
-    List<ItemDTO> retrieveAllItems(String itemCategory, Boolean inStock);
+    List<ItemDTO> retrieveAllItems();
+
+    List<ItemDTO> retrieveAllItemsByCategory(String itemCategory, Boolean inStock);
 
     ItemDTO updateItem(ItemDTO item);
 

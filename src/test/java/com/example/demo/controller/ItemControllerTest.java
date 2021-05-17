@@ -3,7 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.DemoApplication;
 
 import com.example.demo.model.Item;
+import com.example.demo.model.ItemDTO;
 import com.example.demo.repository.ItemRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +38,7 @@ class ItemControllerTest {
     @Autowired
     ItemRepository itemRepository;
 
-    private static Item createItem(int id, String name, String category, double price, String description, int stock) {
+    private static Item createItemWithStock(int id, String name, String category, double price, String description, int stock) {
         Item temp = new Item();
         temp.setId(id);
         temp.setName(name);
@@ -47,35 +49,61 @@ class ItemControllerTest {
         return temp;
     }
 
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    void createNewItem() throws Exception {
+        //given
+        ItemDTO newItem = new ItemDTO("Food", "Fruit", 0.99, "Banana");
+        //when
+        mvc.perform(MockMvcRequestBuilders.post("/api/createItem")
+                .content(asJsonString(newItem))
+                .contentType(MediaType.APPLICATION_JSON))
+                //then
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").value(newItem.getName()))
+                .andExpect(jsonPath("$.category").value(newItem.getCategory()))
+                .andExpect(jsonPath("$.price").value(newItem.getPrice()))
+                .andExpect(jsonPath("$.description").value(newItem.getDescription()));
+
+        assertEquals(1, itemRepository.findAllByCategory("Fruit").size());
+    }
+
     @Test
     void getAllWithSameCategoryAndWithStock() throws Exception {
         //given
-        Item itemOne = createItem(1,"X","C", 32,"D",1);
-        Item itemTwo = createItem(2,"Y","C", 22,"D",2);
-        Item itemThree = createItem(3,"Z","C", 7,"D",0);
-        itemRepository.saveAll(Arrays.asList(itemOne,itemTwo,itemThree));
+        Item itemOne = createItemWithStock(1, "X", "C", 32, "D", 1);
+        Item itemTwo = createItemWithStock(2, "Y", "C", 22, "D", 2);
+        Item itemThree = createItemWithStock(3, "Z", "C", 7, "D", 0);
+        itemRepository.saveAll(Arrays.asList(itemOne, itemTwo, itemThree));
         //when
-        mvc.perform(MockMvcRequestBuilders.get("/getAllItems")
-                .param("itemCategory","C")
-                .param("inStock","true")
+        mvc.perform(MockMvcRequestBuilders.get("/api/getAllItemsByCategory")
+                .param("itemCategory", "C")
+                .param("inStock", "true")
                 .contentType(MediaType.APPLICATION_JSON))
-        //then
+                //then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(hasSize(2)));
     }
 
     @Test
-    void setItemStock() throws Exception{
+    void updateItemStock() throws Exception {
         //given
-        Item temp = createItem(1,"X","C", 32,"D",1);
+        Item temp = createItemWithStock(1, "X", "C", 32, "D", 1);
         itemRepository.save(temp);
         assertEquals(1, itemRepository.findById(1).get().getStock());
         //when
-        mvc.perform(MockMvcRequestBuilders.get("/updateItemStock")
-                .param("itemId","1")
-                .param("stockSize","5")
+        mvc.perform(MockMvcRequestBuilders.put("/api/updateItemStock")
+                .param("itemId", "1")
+                .param("stockSize", "5")
                 .contentType(MediaType.APPLICATION_JSON))
-        //then
+                //then
                 .andExpect(status().isOk());
 
         assertEquals(5, itemRepository.findById(1).get().getStock());

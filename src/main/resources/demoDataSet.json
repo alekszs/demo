@@ -1,0 +1,122 @@
+[
+    {
+        "name": "New Era",
+        "category": "Hats",
+        "price": 34.95,
+        "description": "59 Fifty"
+    },
+    {
+        "name": "Element",
+        "category": "Hats",
+        "price": 24.95,
+        "description": "Fluky Dad"
+    },
+    {
+        "name": "Nike",
+        "category": "Hats",
+        "price": 24.95,
+        "description": "DRY Unisex"
+    },
+    {
+        "name": "Carhartt",
+        "category": "Hats",
+        "price": 35.0,
+        "description": "WIP"
+    },
+    {
+        "name": "Obey",
+        "category": "Hoodies",
+        "price": 89.99,
+        "description": "Statue"
+    },
+    {
+        "name": "Thrasher",
+        "category": "Hoodies",
+        "price": 74.95,
+        "description": "Flame"
+    },
+    {
+        "name": "Champion",
+        "category": "Hoodies",
+        "price": 59.9,
+        "description": "Athletic"
+    },
+    {
+        "name": "Adidas",
+        "category": "Hoodies",
+        "price": 48.0,
+        "description": "Originals"
+    },
+    {
+        "name": "Adidas",
+        "category": "Pants",
+        "price": 36.99,
+        "description": "Tiro 21"
+    },
+    {
+        "name": "Dickies",
+        "category": "Pants",
+        "price": 65.0,
+        "description": "Chino"
+    },
+    {
+        "name": "Carhartt",
+        "category": "Pants",
+        "price": 98.95,
+        "description": "Flint"
+    },
+    {
+        "name": "Vans",
+        "category": "Pants",
+        "price": 33.99,
+        "description": "Cargo"
+    },
+    {
+        "name": "Nike",
+        "category": "Shoes",
+        "price": 84.99,
+        "description": "SB Janoski"
+    },
+    {
+        "name": "Nike",
+        "category": "Shoes",
+        "price": 79.99,
+        "description": "Air Force 1"
+    },
+    {
+        "name": "New Balance",
+        "category": "Shoes",
+        "price": 99.99,
+        "description": "530"
+    },
+    {
+        "name": "Puma",
+        "category": "Shoes",
+        "price": 119.99,
+        "description": "Hedra"
+    },
+    {
+        "name": "Monica Vinader",
+        "category": "Accessories",
+        "price": 299.99,
+        "description": "Golden chain"
+    },
+    {
+        "name": "Pandora",
+        "category": "Accessories",
+        "price": 59.99,
+        "description": "Bracelet"
+    },
+    {
+        "name": "Swarovski",
+        "category": "Accessories",
+        "price": 139.0,
+        "description": "Ring"
+    },
+    {
+        "name": "Ray-Ban",
+        "category": "Accessories",
+        "price": 109.0,
+        "description": "Glasses"
+    }
+]

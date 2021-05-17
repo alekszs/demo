@@ -20,23 +20,39 @@ public class ItemServiceImpl implements ItemService {
 
     private static final Logger log = LoggerFactory.getLogger(ItemServiceImpl.class);
     private final String ENTITY_NAME = "ItemService";
+
+    @Autowired
+    private ItemMapper itemMapper;
+
     @Autowired
     private ItemRepository itemRepository;
+
+    @Override
+    public ItemDTO createNewItem(ItemDTO itemDTO) {
+        log.debug(String.format("[%s]:Creating new item", ENTITY_NAME));
+        return itemMapper.toDTO(itemRepository.save(itemMapper.toEntity(itemDTO)));
+    }
 
     @Override
     public ItemDTO retrieveItemById(int id) {
         log.debug(String.format("[%s]:Retrieving item by id", ENTITY_NAME));
         Optional<Item> storedItem = itemRepository.findById(id);
         if (storedItem.isPresent()) {
-            return ItemMapper.INSTANCE.toDTO(storedItem.get());
+            return itemMapper.toDTO(storedItem.get());
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find item with id: " + id);
         }
     }
 
     @Override
-    public List<ItemDTO> retrieveAllItems(String itemCategory, Boolean inStock) {
+    public List<ItemDTO> retrieveAllItems() {
         log.debug(String.format("[%s]:Retrieving all items", ENTITY_NAME));
+        return itemMapper.toDTO(itemRepository.findAll());
+    }
+
+    @Override
+    public List<ItemDTO> retrieveAllItemsByCategory(String itemCategory, Boolean inStock) {
+        log.debug(String.format("[%s]:Retrieving all items by category", ENTITY_NAME));
         List<Item> items;
         if (inStock) {
             items = itemRepository.findAllByCategoryAndStockGreaterThan(itemCategory, 0);
@@ -45,7 +61,7 @@ public class ItemServiceImpl implements ItemService {
         }
         if (items.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find items");
-        return ItemMapper.INSTANCE.toDTO(items);
+        return itemMapper.toDTO(items);
     }
 
     @Override
@@ -65,7 +81,7 @@ public class ItemServiceImpl implements ItemService {
                 itemEntity.setDescription(itemDTO.getDescription());
 
             itemRepository.save(itemEntity);
-            return ItemMapper.INSTANCE.toDTO(itemEntity);
+            return itemMapper.toDTO(itemEntity);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with id: " + itemDTO.getId());
         }

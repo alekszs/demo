@@ -34,6 +34,14 @@ public class Item {
         this.stock = 0;
     }
 
+    public Item(String name, String category, double price, String description) {
+        this.name = name;
+        this.category = category;
+        this.price = price;
+        this.description = description;
+        this.stock = 0;
+    }
+
     public int getId() {
         return id;
     }
