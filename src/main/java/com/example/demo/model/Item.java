@@ -23,7 +23,8 @@ public class Item {
 
     private int stock;
 
-    public Item() {}
+    public Item() {
+    }
 
     public Item(int id, String name, String category, double price, String description) {
         this.id = id;

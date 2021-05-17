@@ -21,40 +21,40 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-    @RequestMapping(value="/createItem", method=RequestMethod.POST)
-    public ResponseEntity<ItemDTO> createItem(@RequestBody ItemDTO itemDTO){
-        log.debug(String.format("[%s]:Received request to get item by id",ENTITY_NAME));
+    @RequestMapping(value = "/createItem", method = RequestMethod.POST)
+    public ResponseEntity<ItemDTO> createItem(@RequestBody ItemDTO itemDTO) {
+        log.debug(String.format("[%s]:Received request to get item by id", ENTITY_NAME));
         return new ResponseEntity<>(itemService.createNewItem(itemDTO), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value="/getItem/{id}", method=RequestMethod.GET)
-    public ResponseEntity<ItemDTO> getItem(@PathVariable(value="id") int id) {
-        log.debug(String.format("[%s]:Received request to get item by id",ENTITY_NAME));
-        return new ResponseEntity<>(itemService.retrieveItemById(id),HttpStatus.OK);
+    @RequestMapping(value = "/getItem/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ItemDTO> getItem(@PathVariable(value = "id") int id) {
+        log.debug(String.format("[%s]:Received request to get item by id", ENTITY_NAME));
+        return new ResponseEntity<>(itemService.retrieveItemById(id), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/getAllItems", method=RequestMethod.GET)
+    @RequestMapping(value = "/getAllItems", method = RequestMethod.GET)
     public ResponseEntity<List<ItemDTO>> getAllItems() {
-        log.debug(String.format("[%s]:Received request to get all items",ENTITY_NAME));
-        return new ResponseEntity<>(itemService.retrieveAllItems(),HttpStatus.OK);
+        log.debug(String.format("[%s]:Received request to get all items", ENTITY_NAME));
+        return new ResponseEntity<>(itemService.retrieveAllItems(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/getAllItemsByCategory", method=RequestMethod.GET)
+    @RequestMapping(value = "/getAllItemsByCategory", method = RequestMethod.GET)
     public ResponseEntity<List<ItemDTO>> getAllItemsByCategory(@RequestParam(value = "itemCategory") String itemCategory,
-                                  @RequestParam(value = "inStock") Boolean inStock) {
-        log.debug(String.format("[%s]:Received request to get all items by category",ENTITY_NAME));
+                                                               @RequestParam(value = "inStock") Boolean inStock) {
+        log.debug(String.format("[%s]:Received request to get all items by category", ENTITY_NAME));
         return new ResponseEntity<>(itemService.retrieveAllItemsByCategory(itemCategory, inStock), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/updateItem", method=RequestMethod.PUT)
+    @RequestMapping(value = "/updateItem", method = RequestMethod.PUT)
     public ResponseEntity<ItemDTO> updateItem(@RequestBody ItemDTO itemDTO) {
         log.debug(String.format("[%s]:Received request to update an item", ENTITY_NAME));
         return new ResponseEntity<>(itemService.updateItem(itemDTO), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/updateItemStock", method=RequestMethod.PUT)
+    @RequestMapping(value = "/updateItemStock", method = RequestMethod.PUT)
     public ResponseEntity<String> updateItemStock(@RequestParam int itemId, @RequestParam int stockSize) {
-        log.debug(String.format("[%s]:Received request to update an item stock",ENTITY_NAME));
+        log.debug(String.format("[%s]:Received request to update an item stock", ENTITY_NAME));
         itemService.updateItemStock(itemId, stockSize);
         return new ResponseEntity<>(itemId + "item stock set to: " + stockSize, HttpStatus.OK);
     }

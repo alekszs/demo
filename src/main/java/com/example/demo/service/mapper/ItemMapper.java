@@ -4,6 +4,7 @@ import com.example.demo.model.Item;
 import com.example.demo.model.ItemDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
 import java.util.List;
 
 @Mapper(componentModel = "spring")

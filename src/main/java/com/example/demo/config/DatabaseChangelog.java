@@ -29,12 +29,13 @@ public class DatabaseChangelog {
     @EventListener(ApplicationReadyEvent.class)
     private void populateDatabase() {
         log.debug("Populating database from json file");
-        try{
+        try {
             final ObjectMapper objectMapper = new ObjectMapper();
-            TypeReference<List<Item>> typeReference = new TypeReference<List<Item>>(){};
+            TypeReference<List<Item>> typeReference = new TypeReference<List<Item>>() {
+            };
             InputStream inputStream = TypeReference.class.getResourceAsStream(PATH);
             itemRepository.saveAll(objectMapper.readValue(inputStream, typeReference));
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.debug(e.getMessage());
         }
     }
