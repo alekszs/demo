@@ -31,8 +31,7 @@ public class DatabaseChangelog {
         log.debug("Populating database from json file");
         try {
             final ObjectMapper objectMapper = new ObjectMapper();
-            TypeReference<List<Item>> typeReference = new TypeReference<List<Item>>() {
-            };
+            TypeReference<List<Item>> typeReference = new TypeReference<List<Item>>() {};
             InputStream inputStream = TypeReference.class.getResourceAsStream(PATH);
             itemRepository.saveAll(objectMapper.readValue(inputStream, typeReference));
         } catch (Exception e) {
