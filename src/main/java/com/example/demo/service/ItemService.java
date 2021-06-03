@@ -19,4 +19,5 @@ public interface ItemService {
 
     void updateItemStock(int itemId, int stockSize);
 
+    void removeItem(int id);
 }

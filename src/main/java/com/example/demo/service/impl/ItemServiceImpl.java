@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -36,12 +35,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDTO retrieveItemById(int id) {
         log.debug(String.format("[%s]:Retrieving item by id", ENTITY_NAME));
-        Optional<Item> storedItem = itemRepository.findById(id);
-        if (storedItem.isPresent()) {
-            return itemMapper.toDTO(storedItem.get());
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find item with id: " + id);
-        }
+        return itemRepository.findById(id).map(obj -> itemMapper.toDTO(obj))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find item with id: " + id));
     }
 
     @Override
@@ -59,43 +54,50 @@ public class ItemServiceImpl implements ItemService {
         } else {
             items = itemRepository.findAllByCategory(itemCategory);
         }
-        if (items.isEmpty())
+        if (items.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find items");
+        }
         return itemMapper.toDTO(items);
     }
 
     @Override
     public ItemDTO updateItem(ItemDTO itemDTO) {
-
-        Optional<Item> temp = itemRepository.findById(itemDTO.getId());
-        if (temp.isPresent()) {
-            Item itemEntity = temp.get();
+        log.debug(String.format("[%s]:Updating item", ENTITY_NAME));
+        return itemRepository.findById(itemDTO.getId()).map(obj -> {
 
             if (itemDTO.getName() != null)
-                itemEntity.setName(itemDTO.getName());
+                obj.setName(itemDTO.getName());
             if (itemDTO.getCategory() != null)
-                itemEntity.setCategory(itemDTO.getCategory());
+                obj.setCategory(itemDTO.getCategory());
             if (itemDTO.getPrice() != 0)
-                itemEntity.setPrice(itemDTO.getPrice());
+                obj.setPrice(itemDTO.getPrice());
             if (itemDTO.getDescription() != null)
-                itemEntity.setDescription(itemDTO.getDescription());
+                obj.setDescription(itemDTO.getDescription());
 
-            itemRepository.save(itemEntity);
-            return itemMapper.toDTO(itemEntity);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with id: " + itemDTO.getId());
-        }
+            itemRepository.save(obj);
+            return itemMapper.toDTO(obj);
+
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with id: " + itemDTO.getId()));
     }
 
     @Override
     public void updateItemStock(int id, int stockSize) {
-        Optional<Item> item = itemRepository.findById(id);
-        if (item.isPresent()) {
-            Item temp = item.get();
-            temp.setStock(stockSize);
-            itemRepository.save(temp);
-        } else {
+        log.debug(String.format("[%s]:Updating item stock", ENTITY_NAME));
+        itemRepository.findById(id).ifPresentOrElse((item) -> {
+            item.setStock(stockSize);
+            itemRepository.save(item);
+        }, () -> {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find item with id: " + id);
-        }
+        });
+    }
+
+    @Override
+    public void removeItem(int id) {
+        log.debug(String.format("[%s]:Removing item", ENTITY_NAME));
+        itemRepository.findById(id).ifPresentOrElse((item) -> {
+            itemRepository.deleteById(id);
+        }, () -> {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find item with id: " + id);
+        });
     }
 }

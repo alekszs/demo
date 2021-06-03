@@ -58,4 +58,11 @@ public class ItemController {
         itemService.updateItemStock(itemId, stockSize);
         return new ResponseEntity<>(itemId + "item stock set to: " + stockSize, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/removeItem/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> removeItem(@PathVariable(value = "id") int id) {
+        log.debug(String.format("[%s]:Received request to remove item by id", ENTITY_NAME));
+        itemService.removeItem(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
