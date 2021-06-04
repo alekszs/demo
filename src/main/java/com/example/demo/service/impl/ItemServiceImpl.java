@@ -64,15 +64,10 @@ public class ItemServiceImpl implements ItemService {
     public ItemDTO updateItem(ItemDTO itemDTO) {
         log.debug(String.format("[%s]:Updating item", ENTITY_NAME));
         return itemRepository.findById(itemDTO.getId()).map(obj -> {
-
-            if (itemDTO.getName() != null)
-                obj.setName(itemDTO.getName());
-            if (itemDTO.getCategory() != null)
-                obj.setCategory(itemDTO.getCategory());
-            if (itemDTO.getPrice() != 0)
-                obj.setPrice(itemDTO.getPrice());
-            if (itemDTO.getDescription() != null)
-                obj.setDescription(itemDTO.getDescription());
+            obj.setName(itemDTO.getName());
+            obj.setCategory(itemDTO.getCategory());
+            obj.setPrice(itemDTO.getPrice());
+            obj.setDescription(itemDTO.getDescription());
 
             itemRepository.save(obj);
             return itemMapper.toDTO(obj);
