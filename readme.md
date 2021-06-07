@@ -1,5 +1,7 @@
 # Springboot Demo Application
 
+Web Shop
+
 ## Requirements
 
 For building and running the application you need:
@@ -27,7 +29,5 @@ H2 Console: http://localhost:8080/h2-ui
 changelog.switch in `application.properties` can be used to enable or disable the initial database population
 
 ## Swagger
-
-API Docs: http://localhost:8080/api-docs
 
 Swagger UI: http://localhost:8080/swagger-ui.html
