@@ -22,7 +22,8 @@ gradle bootRun
 ## Database
 
 H2 Console: http://localhost:8080/h2-ui
-    JDBC URL: jdbc:h2:mem:testdb
+
+JDBC URL: jdbc:h2:mem:testdb
 
 `resources.demoDataSet.json` contains a data set which is being inserted at the start-up by `com.example.demo.config.DatabaseChangelog`
 
