@@ -4,8 +4,8 @@
 
 For building and running the application you need:
 
-- [JDK 16](https://www.oracle.com/java/technologies/javase-downloads.html)
-- [Gradle 7](https://gradle.org)
+- [JDK 11+](https://www.oracle.com/java/technologies/javase-downloads.html)
+- [Gradle 5+](https://gradle.org)
 
 ## Running the application locally
 
