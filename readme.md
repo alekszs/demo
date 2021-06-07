@@ -19,12 +19,15 @@ gradle bootRun
 
 ## Database
 
-H2 
+H2 Console: http://localhost:8080/h2-ui
+    JDBC URL: jdbc:h2:mem:testdb
 
 `resources.demoDataSet.json` contains a data set which is being inserted at the start-up by `com.example.demo.config.DatabaseChangelog`
 
+changelog.switch in `application.properties` can be used to enable or disable the initial database population
+
 ## Swagger
 
-API Docs: /api-docs
+API Docs: http://localhost:8080/api-docs
 
-Swagger UI: /swagger-ui.html
+Swagger UI: http://localhost:8080/swagger-ui.html
