@@ -16,3 +16,15 @@ Alternatively you can use the [Spring Boot Gradle plugin](https://spring.io/guid
 ```shell
 gradle bootRun
 ```
+
+## Database
+
+H2 
+
+`resources.demoDataSet.json` contains a data set which is being inserted at the start-up by `com.example.demo.config.DatabaseChangelog`
+
+## Swagger
+
+API Docs: /api-docs
+
+Swagger UI: /swagger-ui.html
