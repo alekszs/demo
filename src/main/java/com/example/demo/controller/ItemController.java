@@ -28,7 +28,7 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/getItem/{id}", method = RequestMethod.GET)
-    public ResponseEntity<ItemDTO> getItem(@PathVariable(value = "id") int id) {
+    public ResponseEntity<ItemDTO> getItem(@PathVariable(value = "id") String id) {
         log.debug(String.format("[%s]:Received request to get item by id", ENTITY_NAME));
         return new ResponseEntity<>(itemService.retrieveItemById(id), HttpStatus.OK);
     }
@@ -53,14 +53,14 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/updateItemStock", method = RequestMethod.PUT)
-    public ResponseEntity<String> updateItemStock(@RequestParam int itemId, @RequestParam int stockSize) {
+    public ResponseEntity<String> updateItemStock(@RequestParam String itemId, @RequestParam int stockSize) {
         log.debug(String.format("[%s]:Received request to update an item stock", ENTITY_NAME));
         itemService.updateItemStock(itemId, stockSize);
         return new ResponseEntity<>(itemId + "item stock set to: " + stockSize, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/removeItem/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> removeItem(@PathVariable(value = "id") int id) {
+    public ResponseEntity<Void> removeItem(@PathVariable(value = "id") String id) {
         log.debug(String.format("[%s]:Received request to remove item by id", ENTITY_NAME));
         itemService.removeItem(id);
         return new ResponseEntity<>(HttpStatus.OK);

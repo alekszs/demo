@@ -1,12 +1,12 @@
 package com.example.demo.model;
 
-import com.sun.istack.NotNull;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class ItemDTO implements Serializable {
 
-    private int id;
+    private String id;
 
     @NotNull
     private String name;
@@ -24,7 +24,7 @@ public class ItemDTO implements Serializable {
 
     }
 
-    public ItemDTO(int id, String name, String category, double price, String description) {
+    public ItemDTO(String id, String name, String category, double price, String description) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -39,11 +39,11 @@ public class ItemDTO implements Serializable {
         this.description = description;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

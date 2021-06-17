@@ -11,31 +11,36 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
 import java.util.List;
 
 @Component
-@ConditionalOnProperty(name="changelog.switch")
+@ConditionalOnProperty(name = "changelog.switch")
 public class DatabaseChangelog {
 
-    @Value("${data.set}")
-    private String PATH;
+    private final String ENTITY_NAME = "DatabaseChangelog";
 
     private static final Logger log = LoggerFactory.getLogger(DatabaseChangelog.class);
 
     @Autowired
     ItemRepository itemRepository;
 
+    @Value("${data.set}")
+    private String PATH;
+
     @EventListener(ApplicationReadyEvent.class)
     private void populateDatabase() {
-        log.debug("Populating database from json file");
+        log.debug(String.format("[%s]:Populating database from json file", ENTITY_NAME));
         try {
             final ObjectMapper objectMapper = new ObjectMapper();
-            TypeReference<List<Item>> typeReference = new TypeReference<List<Item>>() {};
-            InputStream inputStream = TypeReference.class.getResourceAsStream(PATH);
-            itemRepository.saveAll(objectMapper.readValue(inputStream, typeReference));
+            List<Item> langList = objectMapper.readValue(
+                    new ClassPathResource(PATH).getFile(),
+                    new TypeReference<List<Item>>() {
+                    });
+
+            itemRepository.saveAll(langList);
         } catch (Exception e) {
             log.debug(e.getMessage());
         }

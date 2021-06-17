@@ -33,7 +33,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDTO retrieveItemById(int id) {
+    public ItemDTO retrieveItemById(String id) {
         log.debug(String.format("[%s]:Retrieving item by id", ENTITY_NAME));
         return itemRepository.findById(id).map(obj -> itemMapper.toDTO(obj))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find item with id: " + id));
@@ -76,7 +76,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void updateItemStock(int id, int stockSize) {
+    public void updateItemStock(String id, int stockSize) {
         log.debug(String.format("[%s]:Updating item stock", ENTITY_NAME));
         itemRepository.findById(id).ifPresentOrElse((item) -> {
             item.setStock(stockSize);
@@ -87,7 +87,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void removeItem(int id) {
+    public void removeItem(String id) {
         log.debug(String.format("[%s]:Removing item", ENTITY_NAME));
         itemRepository.findById(id).ifPresentOrElse((item) -> {
             itemRepository.deleteById(id);

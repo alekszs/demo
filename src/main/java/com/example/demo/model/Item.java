@@ -1,17 +1,13 @@
 package com.example.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "Items")
+@Document(collection = "Items")
 public class Item {
 
     @Id
-    @GeneratedValue
-    private int id;
+    private String id;
 
     private String name;
 
@@ -26,7 +22,7 @@ public class Item {
     public Item() {
     }
 
-    public Item(int id, String name, String category, double price, String description) {
+    public Item(String id, String name, String category, double price, String description) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -35,19 +31,11 @@ public class Item {
         this.stock = 0;
     }
 
-    public Item(String name, String category, double price, String description) {
-        this.name = name;
-        this.category = category;
-        this.price = price;
-        this.description = description;
-        this.stock = 0;
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

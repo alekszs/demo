@@ -7,9 +7,12 @@ import com.example.demo.service.ItemService;
 import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
@@ -20,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
+@RunWith(SpringRunner.class)
+@DirtiesContext
 @SpringBootTest
 class ItemServiceImplTest {
 
@@ -33,10 +38,10 @@ class ItemServiceImplTest {
     @Test
     void getItemById() {
         //given
-        Item temp = new Item(1, "A", "A", 0, "A");
-        given(itemRepository.findById(1)).willReturn(Optional.of(temp));
+        Item temp = new Item("1", "A", "A", 0, "A");
+        given(itemRepository.findById(temp.getId())).willReturn(Optional.of(temp));
         //when
-        ItemDTO result = itemService.retrieveItemById(1);
+        ItemDTO result = itemService.retrieveItemById(temp.getId());
         //then
         assertThat(result.getId()).isEqualTo(temp.getId());
         assertThat(result.getName()).isEqualTo(temp.getName());
@@ -59,9 +64,9 @@ class ItemServiceImplTest {
     @Test
     void updateItem() {
         //given
-        Item temp = new Item(1, "A", "A", 0, "A");
-        given(itemRepository.findById(1)).willReturn(Optional.of(temp));
-        ItemDTO updateWith = new ItemDTO(1, "B", "B", 22, "D");
+        Item temp = new Item("1", "A", "A", 0, "A");
+        given(itemRepository.findById(temp.getId())).willReturn(Optional.of(temp));
+        ItemDTO updateWith = new ItemDTO(temp.getId(), "B", "B", 22, "D");
         //when
         ItemDTO result = itemService.updateItem(updateWith);
         //then

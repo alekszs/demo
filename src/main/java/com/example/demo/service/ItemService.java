@@ -9,7 +9,7 @@ public interface ItemService {
 
     ItemDTO createNewItem(ItemDTO itemDTO);
 
-    ItemDTO retrieveItemById(int id);
+    ItemDTO retrieveItemById(String id);
 
     List<ItemDTO> retrieveAllItems();
 
@@ -17,7 +17,7 @@ public interface ItemService {
 
     ItemDTO updateItem(ItemDTO item);
 
-    void updateItemStock(int itemId, int stockSize);
+    void updateItemStock(String itemId, int stockSize);
 
-    void removeItem(int id);
+    void removeItem(String id);
 }
