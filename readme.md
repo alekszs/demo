@@ -21,7 +21,7 @@ gradle bootRun
 
 ## Database
 
-H2 Console: http://localhost:8080/h2-ui
+H2 Console: `/h2-ui`
 
 JDBC URL: jdbc:h2:mem:testdb
 
@@ -31,4 +31,4 @@ changelog.switch in `application.properties` can be used to enable or disable th
 
 ## Swagger
 
-Swagger UI: http://localhost:8080/swagger-ui.html
+Swagger UI: `/swagger-ui.html`
